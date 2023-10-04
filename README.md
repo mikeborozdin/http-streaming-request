@@ -2,25 +2,31 @@
 
 ## Introduction
 
-I've built this lubrary to help to work with streaming requests for the OpenAI APIs that returns JSON. That said, you can use it with any other API that returns JSON via a streamed HTTP response.
+I've built this library to help to work with streaming requests for the OpenAI APIs that returns JSON. That said, you can use it with any other API that returns JSON via a streamed HTTP response.
 
-# HTTP Streaming & JSON
+// give me a markdown table
 
-Slow API endpoints turn users away from your app. For example, a request to the OpenAI API usually takes around 10 seconds. But if you stream a response you can start showing results to users almost straight away. That's how ChatGPT works - when it prints out a response character by character (well, token by token actually).
+| Move from this                         | To this                          |
+| -------------------------------------- | -------------------------------- |
+| ![no streaming](docs/no-streaming.gif) | ![streaming](docs/streaming.gif) |
 
-It's all good if you return text, but what if you return JSON? Streaming JSON means that almost at every single moment your JSON is not well formed, for example, it may look like this:
+## HTTP Streaming & JSON
+
+🐢 Slow API endpoints turn users away from your app. For example, a request to the OpenAI API usually takes around 10 seconds. But if you stream a response you can start showing results to users almost straight away. That's how ChatGPT works - when it prints out a response character by character (well, token by token actually).
+
+📖 It's all good if you return text, but what if you return JSON? Streaming JSON means that almost at every single moment your JSON is not well formed, for example, it may look like this:
 
 ```json
 [{"name": "Joe
 ```
 
-If you put it through `JSON.parse()` you'll get an error. And chances are you'll only get a well formed JSON only after a request completes.
+💔 If you put it through `JSON.parse()` you'll get an error. And chances are you'll only get a well formed JSON only after a request completes.
 
-But if you wait for it to complete you won't be able to show anything to a user. And that will defeat the purpose of using streaming.
+🕒 But if you wait for it to complete you won't be able to show anything to a user. And that will defeat the purpose of using streaming.
 
 ## A way out
 
-This library solves this problem. Just call `makeStreamingJsonRequest()` and it'll give a stream of well formed JSON, even if the underlying response JSON is still malformed. For example,
+🚀 This library solves this problem. Just call `makeStreamingJsonRequest()` and it'll give a stream of well formed JSON, even if the underlying response JSON is still malformed. For example,
 
 ```ts
 const stream = makeStreamingJsonRequest({
@@ -36,7 +42,7 @@ for await (const data of stream) {
 }
 ```
 
-# Installation
+## Installation
 
 ```bash
 npm install --save-dev http-streaming-request
@@ -44,11 +50,11 @@ npm install --save-dev http-streaming-request
 yarn add --dev http-streaming-request
 ```
 
-# Examples
+## Examples
 
-## Example with React
+### Example with React
 
-### [Run this example](https://http-streaming-request-demo.vercel.app/)
+#### [Run this example](https://http-streaming-request-demo.vercel.app/)
 
 ```ts
 import { makeStreamingJsonRequest } from "http-streaming-request";
@@ -94,9 +100,9 @@ const PeopleListWithMakeStreamingJsonRequest: React.FC = () => {
 };
 ```
 
-## Example with React Hooks
+### Example with React Hooks
 
-### [Run this example](https://http-streaming-request-demo.vercel.app/hooks)
+#### [Run this example](https://http-streaming-request-demo.vercel.app/hooks)
 
 ```ts
 import { useJsonStreaming } from "http-streaming-request";
@@ -134,15 +140,15 @@ const PeopleListWithHooks: React.FC = () => {
 };
 ```
 
-# API
+## API
 
-## `makeStreamingJsonRequest`
+### `makeStreamingJsonRequest`
 
 `makeStreamingJsonRequest<T>(params: MakeStreamingRequestParams): AsyncGenerator`
 
 `makeStreamingJsonRequest()` makes a request to a steaming HTTP endpoint and returns an asynchrnous generator.
 
-### Usage
+#### Usage
 
 ```ts
 const stream = makeStreamingJsonRequest({
@@ -155,7 +161,7 @@ for await (const data of stream) {
 }
 ```
 
-### `makeStreamingRequestParams()`
+#### `makeStreamingRequestParams`
 
 - `url: string` - the API endpoint URL
 - `method: "GET" | "POST" | "PUT" | "DELETE"` - HTTP method
@@ -175,13 +181,13 @@ for await (const data of stream) {
 }
 ```
 
-## `useJsonStreaming()`
+### `useJsonStreaming()`
 
 `useJsonStreaming<T>(params: MakeStreamingRequestParams): { data T, run }`
 
 `useJsonStreaming()` is a React hook that makes a request to a steaming HTTP endpoint.
 
-### Usage
+#### Usage
 
 ```ts
 const { data, run } = useJsonStreaming<Person[]>({
@@ -196,9 +202,3 @@ const onReRun = () => {
   run({ payload: someOtherPayload });
 };
 ```
-
-### `makeStreamingRequestParams()`
-
-- `url: string` - the API endpoint URL
-- `method: "GET" | "POST" | "PUT" | "DELETE"` - HTTP method
-- `payload?: any` - any payload
