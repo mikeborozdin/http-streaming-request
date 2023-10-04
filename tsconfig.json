@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "declaration": true
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.test.ts"
+  ],
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ]
+  }
+}
