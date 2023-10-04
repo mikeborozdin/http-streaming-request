@@ -4,11 +4,9 @@
 
 I've built this library to help to work with streaming requests for the OpenAI APIs that returns JSON. That said, you can use it with any other API that returns JSON via a streamed HTTP response.
 
-// give me a markdown table
-
-| Move from this                         | To this                          |
-| -------------------------------------- | -------------------------------- |
-| ![no streaming](docs/no-streaming.gif) | ![streaming](docs/streaming.gif) |
+| Move from this                                                                                         | To this                                                                                          |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| ![no streaming](https://github.com/mikeborozdin/http-streaming-request/raw/main/docs/no-streaming.gif) | ![streaming](https://github.com/mikeborozdin/http-streaming-request/raw/main/docs/streaming.gif) |
 
 ## HTTP Streaming & JSON
 
