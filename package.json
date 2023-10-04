@@ -1,6 +1,6 @@
 {
   "name": "http-streaming-request",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Consume HTTP Streaming with ease",
   "author": "Mike Borozdin <mike.borozdin@gmail.com>",
   "license": "ISC",
