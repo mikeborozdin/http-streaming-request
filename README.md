@@ -39,9 +39,9 @@ for await (const data of stream) {
 # Installation
 
 ```bash
-npm install --save-dev jest-react-hooks-shallow
+npm install --save-dev http-streaming-request
 # or
-yarn add --dev jest-react-hooks-shallow
+yarn add --dev http-streaming-request
 ```
 
 # Examples
