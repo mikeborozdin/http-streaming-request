@@ -5,6 +5,7 @@ interface MakeStreamingRequestParams {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
   payload?: any;
+  onComplete?: () => void;
 }
 
 interface JsonStreamingParams extends MakeStreamingRequestParams {
@@ -53,12 +54,14 @@ async function* makeStreamingJsonRequest<T>({
   url,
   method,
   payload,
+  onComplete
 }: MakeStreamingRequestParams) {
   const stream = makeStreamingRequest({ url, method, payload });
 
   for await (const chunk of stream) {
     yield parse(chunk);
   }
+  onComplete && onComplete();
 }
 
 const useJsonStreaming = <T>({
