@@ -164,6 +164,7 @@ for await (const data of stream) {
 - `url: string` - the API endpoint URL
 - `method: "GET" | "POST" | "PUT" | "DELETE"` - HTTP method
 - `payload?: any` - any payload
+- `headers?: HeadersInit` - any additional headers
 
 You can also provide a generic type parameter for type safety:
 

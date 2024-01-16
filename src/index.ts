@@ -5,6 +5,7 @@ interface MakeStreamingRequestParams {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
   payload?: any;
+  headers?: HeadersInit;
 }
 
 interface JsonStreamingParams extends MakeStreamingRequestParams {
@@ -19,11 +20,13 @@ async function* makeStreamingRequest({
   url,
   method,
   payload,
+  headers
 }: MakeStreamingRequestParams) {
   const res = await fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
+      ...headers
     },
     body: payload && JSON.stringify(payload),
   });
@@ -53,8 +56,9 @@ async function* makeStreamingJsonRequest<T>({
   url,
   method,
   payload,
+  headers
 }: MakeStreamingRequestParams) {
-  const stream = makeStreamingRequest({ url, method, payload });
+  const stream = makeStreamingRequest({ url, method, payload, headers});
 
   for await (const chunk of stream) {
     yield parse(chunk);
@@ -66,11 +70,12 @@ const useJsonStreaming = <T>({
   method,
   payload,
   manual,
+  headers
 }: JsonStreamingParams) => {
   const [data, setData] = useState<T | null>(null);
 
   const runAutomatically = useCallback(async () => {
-    const stream = makeStreamingRequest({ url, method, payload });
+    const stream = makeStreamingRequest({ url, method, payload, headers });
 
     for await (const chunk of stream) {
       setData(parse(chunk));
@@ -82,6 +87,7 @@ const useJsonStreaming = <T>({
       url,
       method,
       payload: params?.payload || payload,
+      headers
     });
 
     for await (const chunk of stream) {
