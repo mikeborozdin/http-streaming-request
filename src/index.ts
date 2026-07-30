@@ -65,6 +65,14 @@ async function* makeStreamingJsonRequest<T>({
   }
 }
 
+const serialisePayload = (payload?: any) =>
+  payload === undefined ? "" : JSON.stringify(payload);
+
+const serialiseHeaders = (headers?: HeadersInit) =>
+  headers === undefined
+    ? ""
+    : JSON.stringify(Array.from(new Headers(headers).entries()));
+
 const useJsonStreaming = <T>({
   url,
   method,
@@ -74,13 +82,16 @@ const useJsonStreaming = <T>({
 }: JsonStreamingParams) => {
   const [data, setData] = useState<T | null>(null);
 
+  const payloadKey = serialisePayload(payload);
+  const headersKey = serialiseHeaders(headers);
+
   const runAutomatically = useCallback(async () => {
     const stream = makeStreamingRequest({ url, method, payload, headers });
 
     for await (const chunk of stream) {
       setData(parse(chunk));
     }
-  }, [url, payload]);
+  }, [url, method, payloadKey, headersKey]);
 
   const run = async (params?: RunManuallyParams) => {
     const stream = makeStreamingJsonRequest<T>({
@@ -99,7 +110,7 @@ const useJsonStreaming = <T>({
     if (!manual) {
       runAutomatically();
     }
-  }, [url, payload, manual, runAutomatically]);
+  }, [manual, runAutomatically]);
 
   return { data, run };
 };
